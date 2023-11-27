@@ -1,0 +1,28 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.status {
+    display: flex;
+    padding: 0.25rem 0.25rem;
+    font-size: 0.65rem;
+    line-height: 1;
+    border-radius: 0.25rem;
+    text-shadow: 0px 0px 7px #0000006a;
+    color: $color_white;
+    text-transform: uppercase;
+    &.__active {
+        background: $color_green;
+    }
+    &.__inactive {
+        background: $color_red;
+    }
+    &.__prepared {
+        background: $color_purple;
+    }
+    &.__process {
+        background: $color_yellow;
+    }
+    &.__cancelled {
+        background: $color_gray;
+    }
+}

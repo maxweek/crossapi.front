@@ -1,0 +1,34 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.tabs {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border: 1px solid $color_border;
+    border-radius: 0.5rem;
+    background-color: $color_white;
+    box-shadow: $shadow_module;
+    .tab{
+        flex-grow: 1
+    }
+}
+
+.tab {
+    @include t1();
+    color: $color_gray;
+    border-radius: 0.25rem;
+    @include transition();
+    padding: 0.5rem;
+    text-align: center;
+    &:hover {
+        background-color: $color_primary_hover;
+    }
+    &:active {
+        background-color: $color_primary_active;
+    }
+    &.__active {
+        background-color: $color_primary;
+        color: $color_white_alw;
+    }
+}

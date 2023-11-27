@@ -1,0 +1,12 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+
+.map {
+    width: 100%;
+    height: 374px;
+    border-radius: 0.5rem;
+    border: 1px solid $color_border;
+    overflow: hidden;
+    box-shadow: $shadow_module;
+}

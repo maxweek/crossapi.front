@@ -1,0 +1,374 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.gallery {
+    padding: 1rem 0;
+    &.__dragActive {
+        .gallery__item_image {
+            pointer-events: none;
+        }
+    }
+    &.__calc {
+        .gallery__item {
+            .gallery__item_image {
+                transition: 0s;
+            }
+        }
+    }
+    .gallery__list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .gallery__item {
+        flex-basis: calc(100% / 7 - 6rem / 7);
+        aspect-ratio: 1/1;
+        min-width: 150px;
+        display: flex;
+        border: 1.5px solid $color_border;
+        border-radius: 0.5rem;
+        user-select: none;
+        -webkit-user-drag: none;
+        box-shadow: $shadow_module;
+        position: relative;
+        &:after {
+            content: attr(data-order);
+            @include h1();
+            font-size: 4rem;
+            line-height: 1;
+            color: $color_gray;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: auto;
+            top: 0.8rem;
+            bottom: 0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        &:first-child {
+            border: 1.5px dashed $color_primary;
+            &:after {
+                content: "\e9e1";
+                top: 0;
+                bottom: 0.5rem;
+                color: $color_primary;
+                font-family: "icomoon";
+            }
+            &:before {
+                content: "Превью";
+                color: $color_primary;
+                @include t2();
+                position: absolute;
+                bottom: calc(100% + 0.1rem);
+            }
+        }
+        &.__add {
+            border: 2px dashed $color_border;
+        }
+        .gallery__item_image {
+            border: 2px solid $color_bg;
+            overflow: hidden;
+            border-radius: 0.4rem;
+            background-color: $color_white_aplha;
+            width: 100%;
+            transition: all 0.2s;
+            display: flex;
+            cursor: grab;
+            position: relative;
+            z-index: 10;
+            &:hover {
+                .gallery__item_remove {
+                    transform: none;
+                }
+            }
+            &.__zIndex {
+                z-index: 20;
+            }
+            &.__dragging {
+                transition: 0s;
+                box-shadow: $shadow_module;
+                pointer-events: none;
+                .gallery__item_remove {
+                    pointer-events: none;
+                    transform: scale(0);
+                }
+            }
+            &.__deleting {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            .image {
+                width: 100%;
+                // display: flex;
+                justify-content: center;
+                // align-items: center;
+                img {
+                    object-fit: cover;
+                    -webkit-user-drag: none;
+                }
+            }
+            img {
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+        .gallery__item_add {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            @include transition();
+            background-color: $color_bg;
+            z-index: 10;
+            &:hover {
+                background-color: $color_border_lighten;
+                .icon {
+                    transform: rotate(90deg);
+                    background-color: $color_primary;
+                    border-color: $color_white_alw;
+                    color: $color_white_alw;
+                    opacity: 1;
+                    box-shadow: $shadow_module;
+                }
+            }
+            &:active {
+                background-color: $color_border_darken;
+            }
+            .icon {
+                width: 3rem;
+                height: 3rem;
+                border-radius: 3rem;
+                border: 1.5px solid $color_gray;
+                font-size: 1.5rem;
+                color: $color_gray;
+                margin-bottom: 0.5rem;
+                opacity: 0.5;
+                transition: 0.4s;
+            }
+            & > ._title {
+                @include t1();
+            }
+            & > ._text {
+                margin-top: 0.2rem;
+                @include t2();
+                line-height: 1;
+                color: $color_gray;
+            }
+        }
+        .gallery__item_remove {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            z-index: 20;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            border: 1px solid $color_border;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0);
+            background-color: $color_white;
+            @include transition();
+            &:hover {
+                background-color: $color_border_lighten;
+                .icon {
+                    transition: 0.05s;
+                    color: $color_red;
+                }
+            }
+            &:active {
+                background-color: $color_border_darken;
+            }
+            .icon {
+                transition: 0.2s;
+            }
+        }
+    }
+    input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+.gallerySimple {
+    // padding: 1rem 0;
+    &.__big {
+        flex-grow: 1;
+        width: 100%;
+        .gallery__item {
+            flex-basis: 100%;
+        }
+    }
+    .gallery__list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .gallery__item {
+        flex-basis: calc(100% / 7 - 6rem / 7);
+        aspect-ratio: 1/1;
+        min-width: 150px;
+        display: flex;
+        border: 1.5px solid $color_border;
+        border-radius: 0.5rem;
+        user-select: none;
+        -webkit-user-drag: none;
+        box-shadow: $shadow_module;
+        position: relative;
+        &:first-child {
+            border: 1.5px dashed $color_primary;
+        }
+        &.__add {
+            border: 2px dashed $color_border;
+        }
+        .gallery__item_image {
+            border: 2px solid $color_bg;
+            overflow: hidden;
+            border-radius: 0.4rem;
+            background-color: $color_white_aplha;
+            width: 100%;
+            transition: all 0.2s;
+            display: flex;
+            position: relative;
+            z-index: 10;
+            &:hover {
+                .gallery__item_remove {
+                    transform: none;
+                }
+            }
+            &.__zIndex {
+                z-index: 20;
+            }
+            &.__dragging {
+                transition: 0s;
+                box-shadow: $shadow_module;
+                pointer-events: none;
+                .gallery__item_remove {
+                    pointer-events: none;
+                    transform: scale(0);
+                }
+            }
+            &.__deleting {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            .image {
+                width: 100%;
+                // display: flex;
+                justify-content: center;
+                // align-items: center;
+                img {
+                    object-fit: cover;
+                    -webkit-user-drag: none;
+                }
+            }
+            img {
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+        .gallery__item_add {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            @include transition();
+            background-color: $color_bg;
+            z-index: 10;
+            &:hover {
+                background-color: $color_border_lighten;
+                .icon {
+                    transform: rotate(90deg);
+                    background-color: $color_primary;
+                    border-color: $color_white_alw;
+                    color: $color_white_alw;
+                    opacity: 1;
+                    box-shadow: $shadow_module;
+                }
+            }
+            &:active {
+                background-color: $color_border_darken;
+            }
+            .icon {
+                width: 3rem;
+                height: 3rem;
+                border-radius: 3rem;
+                border: 1.5px solid $color_gray;
+                font-size: 1.5rem;
+                color: $color_gray;
+                margin-bottom: 0.5rem;
+                opacity: 0.5;
+                transition: 0.4s;
+            }
+            & > ._title {
+                @include t1();
+            }
+            & > ._text {
+                margin-top: 0.2rem;
+                @include t2();
+                line-height: 1;
+                color: $color_gray;
+            }
+        }
+        .gallery__item_remove {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            z-index: 20;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            border: 1px solid $color_border;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0);
+            background-color: $color_white;
+            @include transition();
+            &:hover {
+                background-color: $color_border_lighten;
+                .icon {
+                    transition: 0.05s;
+                    color: $color_red;
+                }
+            }
+            &:active {
+                background-color: $color_border_darken;
+            }
+            .icon {
+                transition: 0.2s;
+            }
+        }
+    }
+    input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
+        opacity: 0;
+    }
+}

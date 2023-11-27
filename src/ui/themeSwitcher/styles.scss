@@ -1,0 +1,59 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.themeSwitcher {
+    display: flex;
+    width: calc(3rem + 2px);
+    height: calc(1.5rem + 2px);
+    border-radius: 2rem;
+    border: 1px solid $color_border;
+    background-color: $color_gray_light;
+    cursor: pointer;
+    user-select: none;
+    padding: calc(0.15rem - 1px);
+    &.__light {
+        @include lightMode();
+        .sun {
+            opacity: 1;
+        }
+        .moon {
+            opacity: 0;
+        }
+        .icon {
+            color: #ffaa50;
+        }
+    }
+    &.__dark {
+        @include darkMode();
+        .sun {
+            opacity: 0;
+        }
+        .moon {
+            opacity: 1;
+        }
+        .icon {
+            color: #50bfff;
+        }
+        .themeSwitcher__box {
+            transform: translateX(110%);
+        }
+    }
+    .themeSwitcher__box {
+        position: relative;
+        width: calc(1.2rem + 2px);
+        height: calc(1.2rem + 2px);
+        border:1px solid $color_border;
+        background-color: $color_white;
+        border-radius: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .2s;
+        .icon {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            font-size: 16px;
+        }
+    }
+}

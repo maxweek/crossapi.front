@@ -1,0 +1,189 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.table {
+    width: 100%;
+    // overflow: hidden;
+    // max-width: calc((100vw - 48px - 32px));
+    max-width: 100%;
+    // @media(max-width: 1200px){
+    //     max-width: calc((100vw - 40px - 32px));
+    // }
+    position: relative;
+    // @include scrollWithoutScrollHorizontal();
+
+    &.__filledHeader {
+        .table__header {
+            // position: sticky;
+            // z-index: 20;
+            // top: 0;
+        }
+    }
+    .table__header {
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+    }
+    table {
+        // overflow: hidden;
+        width: 100%;
+        border-radius: 0.5rem;
+        border: 1px solid $color_border;
+        box-shadow: $shadow_module;
+        // border-collapse: collapse;
+        border-collapse: separate; /* Разделение границ ячеек */
+        border-spacing: 0;
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+    }
+
+    thead th,
+    tfoot th,
+    tbody td {
+        border-bottom: 1px solid $color_border;
+        // border-top: 0;
+        @include t2();
+        // font-weight: bold;
+        padding: 8px 2px;
+        min-height: 32px;
+        text-align: left;
+        &:first-child {
+            border-left: 0;
+            padding-left: 16px;
+        }
+        &:last-child {
+            border-right: 0;
+            padding-right: 16px;
+        }
+    }
+    thead,
+    tfoot {
+        th {
+            background: $color_white;
+            color: $color_text;
+            white-space: nowrap;
+            &:first-child {
+                border-top-left-radius: calc(0.5rem - 1px);
+                border-bottom-left-radius: calc(0.5rem - 1px);
+            }
+            &:last-child {
+                border-top-right-radius: calc(0.5rem - 1px);
+                border-bottom-right-radius: calc(0.5rem - 1px);
+            }
+        }
+    }
+    tbody {
+        tr {
+            &:nth-last-child(2),
+            &:last-child {
+                td {
+                    border-bottom: 0;
+                }
+            }
+            &:first-child {
+                td {
+                    &:first-child {
+                        border-top-left-radius: calc(0.5rem - 1px);
+                    }
+                    &:last-child {
+                        border-top-right-radius: calc(0.5rem - 1px);
+                    }
+                }
+            }
+            &:nth-last-child(-n + 2) {
+                td {
+                    &:first-child {
+                        border-bottom-left-radius: calc(0.5rem - 1px);
+                    }
+                    &:last-child {
+                        border-bottom-right-radius: calc(0.5rem - 1px);
+                    }
+                }
+            }
+        }
+        td {
+            background: $color_white;
+            color: $color_text;
+        }
+    }
+    thead:last-child {
+        th {
+            border-bottom: 0;
+        }
+    }
+    thead th,
+    tbody td {
+        &.__center {
+            .col,
+            .col_h {
+                justify-content: flex-start;
+            }
+        }
+        &.__center {
+            .col,
+            .col_h {
+                justify-content: center;
+            }
+        }
+        &.__right {
+            .col,
+            .col_h {
+                justify-content: flex-end;
+            }
+        }
+    }
+    .col_h {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .col {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .actions {
+        display: flex;
+        @include actions(0.25rem);
+        margin: -0.5rem -1rem;
+        margin-left: -0.25rem;
+    }
+    .td__hidden {
+        // height: 0;
+        // overflow: hidden;
+        opacity: 0;
+        td {
+            padding-top: 0;
+            padding-bottom: 0;
+            // font-size: 0;
+            line-height: 0;
+        }
+    }
+}
+
+.table__loadMask {
+    .table__head {
+        min-height: 2rem;
+        @include loadMask();
+    }
+    .table__body {
+        margin-top: 1rem;
+        @include loadMask();
+    }
+    .table__row {
+        padding: 0.5rem;
+        border-bottom: 1px solid $color_gray_light;
+        &:last-child {
+            border-bottom: 0;
+        }
+        display: flex;
+    }
+    .table__cell {
+        width: 30%;
+        height: 1.5rem;
+        @include loadMask();
+        &:not(:first-child) {
+            margin-left: 0.5rem;
+        }
+    }
+}

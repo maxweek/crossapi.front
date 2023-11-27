@@ -1,0 +1,23 @@
+.icon {
+    min-width: 12px;
+    min-height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.__err {
+        width: 14px;
+        height: 14px;
+        // border: 1px solid white;
+        box-shadow: 0 0 4px red;
+        border-radius: 64px;
+        color: red;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:before {
+            content: '!';
+            font-size: 12px;
+            position: absolute;
+        }
+    }
+}

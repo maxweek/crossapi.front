@@ -1,0 +1,48 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.header {
+    position: fixed;
+    top: 0;
+    left: $sidebar_width;
+    right: 0;
+    z-index: 100;
+    transition: 0.2s;
+    border-bottom: 1px solid $color_border;
+    backdrop-filter: blur(10px);
+    @media (max-width: $tablet) {
+        left: 0;
+    }
+    &.__filled {
+        background-color: color_white_aplha;
+        // border-bottom-color: ;
+        box-shadow: $shadow_module;
+    }
+    .header__inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: $header_height;
+        padding: 1rem 2rem;
+        @media (max-width: $mobile) {
+            padding: 1rem;
+        }
+    }
+    .header__col {
+    }
+    .header__actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        a {
+            cursor: pointer;
+        }
+    }
+    .logo {
+        font-size: 10rem;
+        .image svg * {
+            fill: $color_black;
+            // .__theme_dark & {
+        }
+    }
+}

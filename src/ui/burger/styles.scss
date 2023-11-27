@@ -1,0 +1,46 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.burger {
+    position: relative;
+    width: 2rem;
+    height: 1.75rem;
+    &.__active {
+        span {
+            &:nth-child(1){
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            &:nth-child(2){
+                transform: rotate(45deg);
+            }
+            &:nth-child(3){
+                transform: rotate(-45deg);
+            }
+            &:nth-child(4){
+                transform: translateY(10px);
+                opacity: 0;
+            }
+        }
+    }
+    span {
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: $color_black;
+        transition: .2s;
+        &:nth-child(1){
+            top: .25rem;
+        }
+        &:nth-child(2),
+        &:nth-child(3){
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+        &:nth-child(4){
+            bottom: .25rem;
+            // bottom: 0;
+        }
+    }
+}

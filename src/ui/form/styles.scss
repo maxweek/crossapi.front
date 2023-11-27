@@ -1,0 +1,93 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    &.__module {
+        background-color: $color_white;
+        padding: 1.5rem;
+        border: 1px solid $color_border;
+        border-radius: 1rem;
+        box-shadow: $shadow_module;
+        min-width: calc(#{$sidebar_width} * 1.5);
+        .form__actions {
+            flex-direction: column;
+        }
+    }
+    .form__header {
+        margin-bottom: 1rem;
+        // text-align: center;
+        .form__title {
+            @include h1();
+            margin: 0;
+        }
+        .form__subtitle {
+            @include s2();
+        }
+    }
+    .form__body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .form__actions {
+        @include actions(0.25rem);
+        margin-top: 0.75rem;
+        display: flex;
+        & > * {
+            // flex-grow: 1;
+        }
+    }
+    .form__footer {
+        margin-top: 1rem;
+        @include t1();
+    }
+    .form__hr {
+        height: 1px;
+        width: 100%;
+        background-color: $color_border;
+    }
+    .form__row,
+    .form__col {
+        &.__align_flex-start {
+            align-items: flex-start;
+        }
+        &.__align_flex-end {
+            align-items: flex-end;
+        }
+        &.__align_center {
+            align-items: center;
+        }
+    }
+    .form__row {
+        display: flex;
+        gap: 0.5rem;
+        @media(max-width: $mobile){
+            flex-wrap: wrap;
+        }
+        & > * {
+            flex-basis: 100%;
+            flex-grow: 1;
+        }
+    }
+    .form__col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        // min-width: 200px;
+        &.__asRow {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            // & > *:not(:first-child) {
+            //     margin-top: 0;
+            //     margin-left: 0.5rem;
+            // }
+            .input {
+                flex-grow: 1;
+            }
+            // @include actions(0.5rem);
+        }
+    }
+}

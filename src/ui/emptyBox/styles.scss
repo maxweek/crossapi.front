@@ -1,0 +1,11 @@
+@import '../../css/vars';
+@import '../../css/typo';
+
+.emptyBox {
+    border-radius: 0.5rem;
+    border:1px solid $color_border;
+    padding: 2rem;
+    text-align: center;
+    justify-content: center;
+    color: $color_gray;
+}
