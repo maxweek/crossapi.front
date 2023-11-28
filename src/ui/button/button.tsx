@@ -15,7 +15,7 @@ interface Props {
     isRound?: boolean,
     fGrow?: boolean,
     to?: string,
-    color?: 'yellow' | 'red' | 'green' | 'purple',
+    color?: 'yellow' | 'red' | 'green' | 'purple' | "",
 }
 
 const Button: FC<Props> = (props: Props) => {

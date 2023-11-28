@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { _IS_DEV } from "../API";
+import { IField } from "./table";
 
 export interface IUser {
     id: number,
@@ -15,9 +16,18 @@ export interface IUser {
 export interface ITable {
     id: number,
     name: string,
-    fields: string,
+    fields: IField[],
     updatedAt: string,
     createdAt: string,
+}
+
+export interface IType {
+    name: string,
+    description: string,
+    color: string,
+    tsType: string,
+    dbType: string,
+    values: any,
 }
 
 interface IStore {
@@ -52,6 +62,7 @@ class Store implements IStore {
         }
     }
     tables = [] as ITable[]
+    types = [] as IType[]
     constructor() {
         makeAutoObservable(this)
         setTimeout(() => {
@@ -88,6 +99,13 @@ class Store implements IStore {
         } else {
             this.ui.sidebar.isActive = type;
         }
+    }
+    getTypeByTypeName = (name: string) => {
+        const type = this.types.filter(f => f.name === name)[0]
+        if(type) return type;
+    }
+    setTypes = (types: IType[]) => {
+        this.types = types
     }
 }
 

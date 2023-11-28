@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { _IS_DEV } from "../API";
+import { IType } from "./store";
 
 
 export interface ITableStore {
@@ -10,7 +11,7 @@ export interface ITableStore {
 export interface ITable {
     id: number,
     name: string,
-    fields: string,
+    fields: IField[],
     updatedAt: string,
     createdAt: string,
 }
@@ -33,7 +34,7 @@ export interface ITableEditItem {
 }
 
 export interface IField {
-    type: string,
+    type: IType,
     name: string,
     value?: any
 }
@@ -54,35 +55,31 @@ class _TableStore implements ITableStore {
     }
     setTable = (table: ITable) => {
         this.table = table
+        //@ts-ignore
+        this.table.fields = table.fields
     }
     setItems = (items: ITableItem[]) => {
         this.items = items
     }
     setEditItem = (id: string | undefined, res?: any) => {
-        if(id){
+        if (id) {
             this.editItem.id = parseInt(id);
         } else {
             this.editItem.id = null;
         }
 
-        const fields = JSON.parse(this.table.fields);
+        const fields = this.table.fields;
 
         this.editItem.fields = fields;
         this.editItem.data = {};
 
-        if (!res) {
-            this.editItem.fields.map(f => {
-                if (f.type === 'string') {
-                    f.value = ''
-                }
-            })
-        } else {
-            this.editItem.fields.map(f => {
-                if (f.type === 'string') {
-                    f.value = res[f.name]
-                }
-            })
-        }
+        this.editItem.fields.map(f => {
+            if(f.type.name === 'text') f.value = res ? res[f.name] : ''
+            if(f.type.name === 'number') f.value = res ? res[f.name] : ''
+            if(f.type.name === 'boolean') f.value = res ? res[f.name] : false
+
+            this.editItem.data[f.name] = f.value
+        })
     }
     setEditItemValue = (name: string, value: any) => {
         const field = this.editItem.fields.filter(f => f.name === name)[0]
@@ -90,21 +87,21 @@ class _TableStore implements ITableStore {
 
         field.value = value;
 
-        this.editItem.data[field.name] = value;
+        this.editItem.data[field.name] = value
     }
     setEditTable = (id: string | undefined, res?: any) => {
-        if(id){
+        if (id) {
             this.editTable.id = parseInt(id);
         } else {
             this.editTable.id = null;
         }
-        if(!res){
+        if (!res) {
             this.editTable.name = ''
             this.editTable.fields = []
             // debugger
         } else {
             this.editTable.name = res.name
-            this.editTable.fields = JSON.parse(res.fields);
+            this.editTable.fields = res.fields;
         }
     }
     setEditTableName = (value: string) => {
@@ -112,23 +109,28 @@ class _TableStore implements ITableStore {
     }
     setEditTableValue = (name: string, value: any) => {
         const field = this.editTable.fields.filter(f => f.name === name)[0]
-        if(!field) return;
+        if (!field) return;
 
         field.name = value
     }
-    addEditTableField = (field?: IField) => {
-        this.editTable.fields.push({
-            name: '',
-            type: 'string'
-        })
+    addEditTableField = (type?: IType) => {
+        if (type) {
+            this.editTable.fields.push({
+                type,
+                name: ''
+            })
+        }
+    }
+    removeEditTableFieldByIndex = (index: number) => {
+        this.editTable.fields.splice(index, 1)
     }
 
-    getFieldsHyper = (_fields: string) => {
-        const fields: IField[] = JSON.parse(_fields);
+    getFieldsHyper = (fields: IField[]) => {
         let str = '';
-        
+
         fields.map(f => {
-            str += `${f.name} - ${f.type}<br/>`;
+            console.log(f)
+            str += `${f.name} - ${f.type.name}<br/>`;
         })
         console.log(str)
 

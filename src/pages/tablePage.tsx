@@ -54,11 +54,15 @@ const Table_Page: FC<Props> = observer((props: Props) => {
         })
     }
 
+    const tableFields = TableStore.table.fields?.map(field => {
+        return { title: field.name }
+    }) ?? []
+
     return (
         <Page className="dashboard">
             <PageHead
                 title={TableStore.table.name}
-                info={"#" + id}
+                info={`#${id} - ${_SITE_URL}/api/${TableStore.table.name}/`}
                 actions={<>
                     <Button type="primary" to="add" icon="plus">Добавить</Button>
                 </>}
@@ -67,29 +71,34 @@ const Table_Page: FC<Props> = observer((props: Props) => {
                 <Table
                     thead={[
                         {
-                            title: 'id'
+                            title: 'id',
+                        },
+                        ...tableFields,
+                        {
+                            title: 'createdAt',
                         },
                         {
-                            title: 'name'
-                        },
-                        {
-                            title: 'updatedAt'
-                        },
-                        {
-                            title: 'createdAt'
+                            title: 'updatedAt',
                         },
                         {
                             title: '',
                             width: '2%'
                         },
                     ]}
-                    tbody={TableStore.items.map(item => [
-                        `${item.id}`,
-                        <Link to={`/tables/table/${id}/${item.id}/`}>{item.title}</Link>,
-                        `${new Date(item.updatedAt).toLocaleString()}`,
-                        `${new Date(item.createdAt).toLocaleString()}`,
-                        <Button type="primary" color="red" icon="trash" onClick={() => { deleteItem(item.id) }} />,
-                    ])}
+                    tbody={TableStore.items.map(item => {
+                        let fields: string[] = []
+                        tableFields.map(f => {
+                            //@ts-ignore
+                            fields.push(`${item[f.title]}`)
+                        })
+                        return [
+                            <Link to={`/tables/table/${id}/${item.id}/`}>{item.id}</Link>,
+                            ...fields,
+                            `${new Date(item.updatedAt).toLocaleString()}`,
+                            `${new Date(item.createdAt).toLocaleString()}`,
+                            <Button type="primary" color="red" icon="trash" onClick={() => { deleteItem(item.id) }} />,
+                        ]
+                    })}
                 />
             </PageBody>
         </Page >

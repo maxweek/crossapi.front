@@ -7,16 +7,18 @@ import Icon from "../../ui/icon/icon";
 import AppStore from "../../store/store";
 import User from "../user/user";
 import { observer } from "mobx-react-lite";
-import { logOut } from "../../API";
+import { logOut, setRequest } from "../../API";
 import ThemeSwitcher from "../../ui/themeSwitcher/themeSwitcher";
 import { useAdaptive } from "../../hooks";
 import Burger from "../../ui/burger/burger";
+import Button from "../../ui/button/button";
 
 interface Props {
 }
 
 const Header: FC<Props> = observer((props: Props) => {
     const [filled, setFilled] = useState<boolean>(false);
+    const [loadingSync, setLoadingSync] = useState<boolean>(false);
     const aType = useAdaptive();
     useEffect(() => {
         window.addEventListener('scroll', checkScroll)
@@ -33,6 +35,24 @@ const Header: FC<Props> = observer((props: Props) => {
         console.log('123')
         AppStore.setSidebarActive(true)
     }
+
+    const reSync = () => {
+        setLoadingSync(true)
+        setRequest({
+            type: "GET",
+            url: "/core/clearSync",
+            success: () => {
+                setRequest({
+                    type: "GET",
+                    url: "/core/sync",
+                    success: () => {
+                        setLoadingSync(false)
+                    }
+                })
+            }
+        })
+    }
+
     return (
         <header className={`header ${getCl(filled, 'filled')}`}>
             <div className="header__inner">
@@ -48,6 +68,14 @@ const Header: FC<Props> = observer((props: Props) => {
                 </div>
                 <div className="header__col">
                     <div className="header__actions">
+                        <Button
+                            type="primary"
+                            color={loadingSync ? "green" : "purple"}
+                            loading={loadingSync}
+                            onClick={() => reSync()}
+                        >
+                            Sync
+                        </Button>
                         {aType === 'DESK' ?
                             <>
                                 <ThemeSwitcher />

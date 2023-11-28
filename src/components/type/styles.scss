@@ -1,0 +1,48 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.typeList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    & > * {
+        flex-basis: calc(100% / 3 - 2rem);
+        // flex-basis: 100%;
+    }
+}
+.type {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    border: 1px solid;
+    padding: 1rem;
+    gap: 1rem;
+    &.__interactive {
+        cursor: pointer;
+        user-select: none;
+        @include transition();
+        &:hover {
+            background-color: $color_border;
+        }
+        &:active {
+            background-color: $color_gray;
+        }
+    }
+    .type__box {
+        display: flex;
+        align-items: center;
+    }
+    .type__icon {
+        border: 1px dashed;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        margin-right: 0.25rem;
+    }
+    .type__title {
+        @include t1();
+    }
+    .type__description {
+        @include t1();
+    }
+}

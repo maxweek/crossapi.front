@@ -10,6 +10,8 @@ import Form, { FormActions, FormBody, FormCol, FormRow } from "../ui/form/form";
 import Input from "../ui/input/input";
 import InputText from "../ui/input/inputText";
 import TableStore from "../store/table";
+import Modal from "../ui/modal/modal";
+import Type, { TypeList } from "../components/type/type";
 
 interface Props {
 
@@ -17,6 +19,7 @@ interface Props {
 
 const Tables_Add_Page: FC<Props> = observer((props: Props) => {
     const [loaded, setLoaded] = useState<boolean>(true);
+    const [modalActive, setModalActive] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -64,7 +67,7 @@ const Tables_Add_Page: FC<Props> = observer((props: Props) => {
                                     <FormCol>
                                         <Input
                                             type={"text"}
-                                            label={field.type}
+                                            label={field.type.name}
                                             value={field.name}
                                             onChange={value => TableStore.setEditTableValue(field.name, value)}
                                         />
@@ -72,7 +75,7 @@ const Tables_Add_Page: FC<Props> = observer((props: Props) => {
                                 </FormRow>
                             )
                         })}
-                        <Button type="primary" onClick={() => TableStore.addEditTableField()}>Добавить поле</Button>
+                        <Button type="primary" onClick={() => setModalActive(true)}>Добавить поле</Button>
                     </FormBody>
                     <FormActions>
                         <Button type="primary" onClick={onSubmit} icon="check" loading={!loaded}>Применить</Button>
@@ -80,6 +83,16 @@ const Tables_Add_Page: FC<Props> = observer((props: Props) => {
                     </FormActions>
                 </Form>
             </PageBody>
+            <Modal isActive={modalActive} setActive={setModalActive} title="Выбрать тип">
+                <TypeList>
+                    {AppStore.types.map((type, k) => (
+                        <Type {...type} key={k} onClick={() => {
+                            setModalActive(false)
+                            TableStore.addEditTableField(type)
+                        }} />
+                    ))}
+                </TypeList>
+            </Modal>
         </Page >
     )
 })

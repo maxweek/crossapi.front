@@ -63,12 +63,30 @@ const Table_Add_Page: FC<Props> = observer((props: Props) => {
                             return (
                                 <FormRow>
                                     <FormCol>
-                                        <Input
-                                            type={"text"}
-                                            label={field.name}
-                                            value={field.value}
-                                            onChange={value => TableStore.setEditItemValue(field.name, value)}
-                                        />
+                                        {field.type.name === 'text' &&
+                                            <Input
+                                                type={"text"}
+                                                label={field.name}
+                                                value={field.value}
+                                                onChange={value => TableStore.setEditItemValue(field.name, value)}
+                                            />
+                                        }
+                                        {field.type.name === 'number' &&
+                                            <Input
+                                                type={"number"}
+                                                label={field.name}
+                                                value={field.value}
+                                                onChange={value => TableStore.setEditItemValue(field.name, value)}
+                                            />
+                                        }
+                                        {field.type.name === 'boolean' &&
+                                            <Input
+                                                type={"checkbox"}
+                                                label={field.name}
+                                                value={field.value}
+                                                onChange={value => TableStore.setEditItemValue(field.name, value)}
+                                            />
+                                        }
                                     </FormCol>
                                 </FormRow>
                             )

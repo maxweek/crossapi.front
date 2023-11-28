@@ -6,9 +6,10 @@ import InputTextArea from './inputTextArea';
 import InputSelect from './inputSelect';
 import InputSelectMulti from './inputSelectMulti';
 import InputCheckbox from './inputCheckbox';
+import InputNumber from './inputNumber';
 
 interface IInput {
-    type: 'text' | 'select' | 'datetime' | 'textarea' | 'multiselect' | 'password' | 'checkbox',
+    type: 'number' | 'text' | 'select' | 'datetime' | 'textarea' | 'multiselect' | 'password' | 'checkbox',
     inputType?: string,
     className?: string,
     value: any,
@@ -90,6 +91,16 @@ const Input: FC<IInput> = (props: IInput) => {
                     disabled={props.disabled}
                 />
             }
+            {props.type === 'number' &&
+                <InputNumber
+                    inputType={props.inputType}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    onChange={onChange}
+                    value={props.value}
+                    disabled={props.disabled}
+                />
+            }
             {props.type === 'textarea' &&
                 <InputTextArea
                     onFocus={onFocus}
@@ -100,7 +111,7 @@ const Input: FC<IInput> = (props: IInput) => {
                     rows={props.rows}
                     minRows={props.minRows}
                     maxRows={props.maxRows}
-                    
+
                 />
             }
             {props.type === 'select' &&

@@ -18,6 +18,7 @@ import Table_Add_Page from './pages/tableAddPage';
 import Table_Edit_Page from './pages/tableEditPage';
 import Tables_Add_Page from './pages/tablesAddPage';
 import Tables_Edit_Page from './pages/tablesEditPage';
+import TypesPage from './pages/typesPage';
 
 const App = observer(() => {
   const [inited, setInited] = useState<boolean>(true);
@@ -25,7 +26,16 @@ const App = observer(() => {
   useEffect(() => {
     setRequest({
       type: 'GET',
-      url: '/core/tables',
+      url: '/core/types/',
+      success: (res) => {
+        console.log(res)
+        AppStore.setTypes(res)
+        // setInited(true)
+      },
+    })
+    setRequest({
+      type: 'GET',
+      url: '/core/tables/',
       success: (res) => {
         console.log(res)
         AppStore.setTables(res)
@@ -68,7 +78,7 @@ const App = observer(() => {
                 })
               },
               {
-                link: '/tickets',
+                link: '/types',
                 text: 'Типы',
                 icon: 'server',
               },
@@ -86,6 +96,7 @@ const App = observer(() => {
             <main>
               <Routes>
                 <Route path='/' element={<IndexPage />} />
+                <Route path='/types' element={<TypesPage />} />
                 <Route path='/tables'>
                   <Route index element={<Tables_Page />} />
                   <Route path='add' element={<Tables_Add_Page />} />
