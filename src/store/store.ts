@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { _IS_DEV } from "../API";
 import { IField } from "./table";
+import { IStatik } from "./statik";
 
 export interface IUser {
     id: number,
@@ -62,6 +63,7 @@ class Store implements IStore {
         }
     }
     tables = [] as ITable[]
+    statiks = [] as IStatik[]
     types = [] as IType[]
     constructor() {
         makeAutoObservable(this)
@@ -92,6 +94,9 @@ class Store implements IStore {
     }
     setTables = (tables: ITable[]) => {
         this.tables = tables;
+    }
+    setStatiks = (statiks: IStatik[]) => {
+        this.statiks = statiks;
     }
     setSidebarActive = (type?: boolean) => {
         if(type === undefined){

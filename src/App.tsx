@@ -19,6 +19,9 @@ import Table_Edit_Page from './pages/tableEditPage';
 import Tables_Add_Page from './pages/tablesAddPage';
 import Tables_Edit_Page from './pages/tablesEditPage';
 import TypesPage from './pages/typesPage';
+import Statiks_Page from './pages/statiksPage';
+import Statiks_Add_Page from './pages/statikAddPage';
+import Statiks_Edit_Page from './pages/statikEditPage';
 
 const App = observer(() => {
   const [inited, setInited] = useState<boolean>(true);
@@ -31,6 +34,14 @@ const App = observer(() => {
         console.log(res)
         AppStore.setTypes(res)
         // setInited(true)
+      },
+    })
+
+    setRequest({
+      type: 'GET',
+      url: '/core/static/',
+      success: (res) => {
+        AppStore.setStatiks(res)
       },
     })
     setRequest({
@@ -78,6 +89,23 @@ const App = observer(() => {
                 })
               },
               {
+                link: '/static/',
+                text: 'Статика',
+                icon: 'activity',
+                // childs: [
+                //   {
+                //     link: '/tables/',
+                //     text: 'Таблицы',
+                //   }
+                // ]
+                childs: AppStore.statiks.map(statik => {
+                  return {
+                    link: `/static/${statik.id}/`,
+                    text: statik.name
+                  }
+                })
+              },
+              {
                 link: '/types',
                 text: 'Типы',
                 icon: 'server',
@@ -104,6 +132,11 @@ const App = observer(() => {
                   <Route path='table/:id' element={<Table_Page />} />
                   <Route path='table/:id/add' element={<Table_Add_Page />} />
                   <Route path='table/:id/:itemId' element={<Table_Edit_Page />} />
+                </Route>
+                <Route path='/static'>
+                  <Route index element={<Statiks_Page />} />
+                  <Route path='add' element={<Statiks_Add_Page />} />
+                  <Route path=':id' element={<Statiks_Edit_Page />} />
                 </Route>
                 {/* <Route path='/places'>
                   <Route index element={<Places_List_Page />} />
