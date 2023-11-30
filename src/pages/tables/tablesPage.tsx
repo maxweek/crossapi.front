@@ -1,19 +1,24 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import Page, { PageBody, PageHead, PageInDev } from "../ui/page/page";
-import { _SITE_URL, apiRequest, setRequest } from "../API";
-import Table from "../ui/table/table";
-import AppStore from "../store/store";
 import { observer } from "mobx-react-lite";
-import Button from "../ui/button/button";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
-import TableStore from "../store/table";
-import { getRawHtml } from "../helper";
+import { Link, useNavigate } from "react-router-dom";
+import TableStore from "../../store/table";
+import { setRequest } from "../../API";
+import Page, { PageBody, PageHead } from "../../ui/page/page";
+import Form, { FormActions, FormBody, FormCol, FormRow } from "../../ui/form/form";
+import Input from "../../ui/input/input";
+import Button from "../../ui/button/button";
+import Modal from "../../ui/modal/modal";
+import Type, { TypeList } from "../../components/type/type";
+import AppStore from "../../store/store";
+import Table from "../../ui/table/table";
+import { getRawHtml } from "../../helper";
+
+
 interface Props {
 
 }
 
-const Statiks_Page: FC<Props> = observer((props: Props) => {
+const Tables_Page: FC<Props> = observer((props: Props) => {
     const navigate = useNavigate()
 
 
@@ -24,17 +29,17 @@ const Statiks_Page: FC<Props> = observer((props: Props) => {
     const load = () => {
         setRequest({
             type: 'GET',
-            url: '/core/static/',
+            url: '/core/tables',
             success: (res) => {
-                AppStore.setStatiks(res)
+                AppStore.setTables(res)
             },
         })
     }
 
-    const deleteTable = (id: number | null) => {
+    const deleteTable = (id: number) => {
         setRequest({
             type: 'POST',
-            url: `/core/static/${id}/delete`,
+            url: `/core/tables/${id}/delete`,
             success: (res) => {
                 load()
             },
@@ -44,7 +49,7 @@ const Statiks_Page: FC<Props> = observer((props: Props) => {
     return (
         <Page className="dashboard">
             <PageHead
-                title={"Статика"}
+                title={"Таблицы"}
                 actions={<>
                     <Button type="primary" icon="plus" onClick={() => { navigate('add/') }}>Добавить</Button>
                 </>}
@@ -59,9 +64,6 @@ const Statiks_Page: FC<Props> = observer((props: Props) => {
                             title: 'name'
                         },
                         {
-                            title: 'url'
-                        },
-                        {
                             title: 'fields'
                         },
                         {
@@ -72,13 +74,12 @@ const Statiks_Page: FC<Props> = observer((props: Props) => {
                             width: '2%'
                         },
                     ]}
-                    tbody={AppStore.statiks.map(statik => [
-                        `${statik.id}`,
-                        <Link to={`/static/${statik.id}/`}>{statik.name}</Link>,
-                        `/static/${statik.url}/`,
-                        <span dangerouslySetInnerHTML={getRawHtml(TableStore.getFieldsHyper(statik.fields))} />,
-                        `${statik.updatedAt}`,
-                        <Button type="primary" color="red" onClick={() => deleteTable(statik.id)} icon="trash" />
+                    tbody={AppStore.tables.map(table => [
+                        `${table.id}`,
+                        <Link to={`/tables/${table.id}/`}>{table.name}</Link>,
+                        <span dangerouslySetInnerHTML={getRawHtml(TableStore.getFieldsHyper(table.fields))} />,
+                        `${table.updatedAt}`,
+                        <Button type="primary" color="red" onClick={() => deleteTable(table.id)} icon="trash" />
                     ])}
                 />
             </PageBody>
@@ -86,4 +87,4 @@ const Statiks_Page: FC<Props> = observer((props: Props) => {
     )
 })
 
-export default Statiks_Page
+export default Tables_Page

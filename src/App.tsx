@@ -6,22 +6,23 @@ import LoginPage from './pages/loginPage';
 import IndexPage from './pages/indexPage';
 import AppStore from './store/store';
 import { observer } from 'mobx-react-lite';
-import Tables_Page from './pages/tablesPage';
 import Header from './components/header/header';
 import { apiRequest, checkToken, setRequest, setRequestList } from './API';
 import { getCl, getCookie, setCookie } from './helper';
 // import Notif from './components/notif/notif';
 // import NotifStore from './store/_notifStore';
 import Themer from './components/themer';
-import Table_Page from './pages/tablePage';
-import Table_Add_Page from './pages/tableAddPage';
-import Table_Edit_Page from './pages/tableEditPage';
-import Tables_Add_Page from './pages/tablesAddPage';
-import Tables_Edit_Page from './pages/tablesEditPage';
 import TypesPage from './pages/typesPage';
-import Statiks_Page from './pages/statiksPage';
-import Statiks_Add_Page from './pages/statikAddPage';
-import Statiks_Edit_Page from './pages/statikEditPage';
+import Tables_Page from './pages/tables/tablesPage';
+import Tables_Add_Page from './pages/tables/tablesAddPage';
+import Tables_Edit_Page from './pages/tables/tablesEditPage';
+import Table_Page from './pages/table/tablePage';
+import Table_Add_Page from './pages/table/tableAddPage';
+import Table_Edit_Page from './pages/table/tableEditPage';
+import Statiks_Page from './pages/static/statiksPage';
+import Statiks_Add_Page from './pages/static/statikAddPage';
+import Statiks_Edit_Page from './pages/static/statikEditPage';
+import MediaPage from './pages/mediaPage';
 
 const App = observer(() => {
   const [inited, setInited] = useState<boolean>(true);
@@ -138,6 +139,7 @@ const App = observer(() => {
                   <Route path='add' element={<Statiks_Add_Page />} />
                   <Route path=':id' element={<Statiks_Edit_Page />} />
                 </Route>
+                <Route path='/media' element={<MediaPage />} />
                 {/* <Route path='/places'>
                   <Route index element={<Places_List_Page />} />
                   <Route path='add' element={<Places_Add_Page />} />

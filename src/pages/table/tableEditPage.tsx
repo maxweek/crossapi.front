@@ -1,23 +1,23 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
-import Page, { PageBody, PageHead, PageInDev } from "../ui/page/page";
-import { _SITE_URL, apiRequest, setRequest } from "../API";
-import Table from "../ui/table/table";
-import AppStore from "../store/store";
 import { observer } from "mobx-react-lite";
-import { useNavigate, useParams } from "react-router";
-import Button from "../ui/button/button";
-import Form, { FormActions, FormBody, FormCol, FormRow } from "../ui/form/form";
-import Input from "../ui/input/input";
-import InputText from "../ui/input/inputText";
-import TableStore from "../store/table";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import TableStore from "../../store/table";
+import { setRequest } from "../../API";
+import Page, { PageBody, PageHead } from "../../ui/page/page";
+import Form, { FormActions, FormBody, FormCol, FormRow } from "../../ui/form/form";
+import Input from "../../ui/input/input";
+import Button from "../../ui/button/button";
+import Modal from "../../ui/modal/modal";
+import Type, { TypeList } from "../../components/type/type";
+import AppStore from "../../store/store";
 
 interface Props {
 
 }
 
-const Table_Add_Page: FC<Props> = observer((props: Props) => {
+const Table_Edit_Page: FC<Props> = observer((props: Props) => {
     const [loaded, setLoaded] = useState<boolean>(false);
-    const { id } = useParams();
+    const { id, itemId } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,21 +25,27 @@ const Table_Add_Page: FC<Props> = observer((props: Props) => {
             type: 'GET',
             url: `/core/tables/${id}`,
             success: res => {
-                setLoaded(true);
-                // console.log(res)
-                // loadTable(res.name);
                 TableStore.setTable(res);
-                TableStore.setEditItem(undefined)
+                setRequest({
+                    type: 'GET',
+                    url: `/api/${res.name}/${itemId}`,
+                    success: _res => {
+                        setLoaded(true);
+                        // console.log(res)
+                        // loadTable(res.name);
+                        TableStore.setEditItem(itemId, _res)
+                    }
+                })
             }
         })
-    }, [id])
+    }, [id, itemId])
 
 
     const onSubmit = () => {
         setLoaded(false)
         setRequest({
             type: 'POST',
-            url: `/api/${TableStore.table.name}/`,
+            url: `/api/${TableStore.table.name}/${TableStore.editItem.id}`,
             data: TableStore.editItem.data,
             success: res => {
                 setLoaded(true);
@@ -53,7 +59,7 @@ const Table_Add_Page: FC<Props> = observer((props: Props) => {
     return (
         <Page className="dashboard">
             <PageHead
-                title={"Добавить элемент"}
+                title={"Изменить элемент"}
                 info={TableStore.table.name}
             />
             <PageBody>
@@ -102,4 +108,4 @@ const Table_Add_Page: FC<Props> = observer((props: Props) => {
     )
 })
 
-export default Table_Add_Page
+export default Table_Edit_Page

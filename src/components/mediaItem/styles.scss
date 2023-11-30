@@ -1,0 +1,56 @@
+@import "../../css/vars";
+@import "../../css/typo";
+
+.mediaItemList {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    & > * {
+        flex-basis: calc(100% / 4 - 0.75rem);
+    }
+}
+
+.mediaItem {
+    border-radius: 1rem;
+    border: 1px solid $color_border;
+    background-color: $color_gray_light;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    position: relative;
+    &:hover {
+        .mediaItem__remove {
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+    .mediaItem__info {
+    }
+    .mediaItem__name {
+        @include t1();
+    }
+    .mediaItem__size {
+        @include t2();
+    }
+    .mediaItem__remove {
+        position: absolute;
+        transition: .2s;
+        opacity: 0;
+        pointer-events: none;
+        top: 1rem;
+        right: 1rem;
+    }
+    .mediaItem__file {
+        border-radius: 0.5rem;
+        flex-grow: 1;
+        overflow: hidden;
+        img,
+        video {
+            width: 100%;
+            height: 100%;
+            background-color: $color_gray;
+            object-fit: cover;
+        }
+    }
+}

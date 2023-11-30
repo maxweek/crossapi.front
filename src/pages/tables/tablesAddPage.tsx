@@ -1,17 +1,15 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
-import Page, { PageBody, PageHead, PageInDev } from "../ui/page/page";
-import { _SITE_URL, apiRequest, setRequest } from "../API";
-import Table from "../ui/table/table";
-import AppStore from "../store/store";
 import { observer } from "mobx-react-lite";
-import { useNavigate, useParams } from "react-router";
-import Button from "../ui/button/button";
-import Form, { FormActions, FormBody, FormCol, FormRow } from "../ui/form/form";
-import Input from "../ui/input/input";
-import InputText from "../ui/input/inputText";
-import TableStore from "../store/table";
-import Modal from "../ui/modal/modal";
-import Type, { TypeList } from "../components/type/type";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import TableStore from "../../store/table";
+import { setRequest } from "../../API";
+import Page, { PageBody, PageHead } from "../../ui/page/page";
+import Form, { FormActions, FormBody, FormCol, FormRow } from "../../ui/form/form";
+import Input from "../../ui/input/input";
+import Button from "../../ui/button/button";
+import Modal from "../../ui/modal/modal";
+import Type, { TypeList } from "../../components/type/type";
+import AppStore from "../../store/store";
 
 interface Props {
 
