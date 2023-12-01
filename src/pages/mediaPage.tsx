@@ -9,6 +9,7 @@ import { IImage } from "../components/mediaItem/Item";
 import MediaItemList from "../components/mediaItem/list";
 import Button from "../ui/button/button";
 import Modal from "../ui/modal/modal";
+import FileUpload from "../components/mediaItem/uploadFiles";
 
 interface Props {
 
@@ -37,6 +38,7 @@ const MediaPage: FC<Props> = (props: Props) => {
         <Page>
             <PageHead
                 title={"Медиа"}
+                info="/media"
                 actions={<>
                     <Button type="primary" icon="plus" onClick={() => { setAddModalActive(true) }}>Добавить</Button>
                 </>}
@@ -44,7 +46,7 @@ const MediaPage: FC<Props> = (props: Props) => {
             <PageBody>
                 <MediaItemList items={items} />
                 <Modal title="Добавить медиа" isActive={addModalActive} setActive={setAddModalActive}>
-                    test
+                    <FileUpload url="/media" />
                 </Modal>
             </PageBody>
         </Page>
