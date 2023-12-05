@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { _IS_DEV } from "../API";
-import { IField } from "./table";
+import { IField, ITable } from "./table";
 import { IStatik } from "./statik";
 
 export interface IUser {
@@ -12,14 +12,6 @@ export interface IUser {
     properties: {
         city: number | null
     }
-}
-
-export interface ITable {
-    id: number,
-    name: string,
-    fields: IField[],
-    updatedAt: string,
-    createdAt: string,
 }
 
 export interface IType {
@@ -40,6 +32,18 @@ interface IStore {
             isActive: boolean
         }
     }
+}
+
+export interface IPropertyItem {
+    id: number,
+    title: string,
+    icon?: string,
+    color?: string
+}
+interface IProperty {
+    name: string,
+    type: 'single' | 'multiple',
+    list: IPropertyItem[]
 }
 
 console.log('init store')

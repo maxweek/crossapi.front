@@ -56,6 +56,13 @@
             cursor: pointer;
         }
     }
+    &.__editor {
+        .input__box {
+            &>*{
+                width: 100%;
+            }
+        }
+    }
 
     &.__multiselect,
     &.__select {

@@ -63,19 +63,34 @@ const Tables_Edit_Page: FC<Props> = observer((props: Props) => {
                             <FormCol>
                                 <Input
                                     type={"text"}
-                                    label={"Имя таблицы"}
+                                    label={"Имя таблицы на англ"}
                                     value={TableStore.editTable.name}
                                     onChange={value => TableStore.setEditTableName(value)}
                                 />
                             </FormCol>
+                            <FormCol>
+                                <Input
+                                    type={"text"}
+                                    label={"Публичное имя таблицы"}
+                                    value={TableStore.editTable.publicName}
+                                    onChange={value => TableStore.setEditTablePublicName(value)}
+                                />
+                            </FormCol>
+                            <FormCol>
+                                <Input
+                                    type={"checkbox"}
+                                    label={"Активность"}
+                                    value={TableStore.editTable.active}
+                                    onChange={value => TableStore.setEditTableActive(value)}
+                                />
+                            </FormCol>
                         </FormRow>
                         <FormHr />
-                        <PageHead
-                            title={"Поля"}
-                        />
                         {TableStore.editTable?.fields?.map((field, i) => {
                             return (
-                                <FormRow>
+
+                                <FormRow align="flex-start">
+
                                     <FormCol asRow={true}>
                                         <Input
                                             type={"text"}
@@ -85,6 +100,24 @@ const Tables_Edit_Page: FC<Props> = observer((props: Props) => {
                                         />
                                         <Button type="primary" color="red" icon="trash" onClick={() => { TableStore.removeEditTableFieldByIndex(i) }} />
                                     </FormCol>
+                                    {(field.type.name === 'list' || field.type.name === 'multilist') &&
+                                        <FormCol>
+                                            {field.options?.map((option, index) => {
+                                                return (
+                                                    <FormCol asRow={true}>
+                                                        <Input
+                                                            type={"text"}
+                                                            label={option.id.toString()}
+                                                            value={option.title}
+                                                            onChange={value => TableStore.setEditTableOption(field.name, index, value)}
+                                                        />
+                                                        <Button type="primary" color="red" icon="trash" onClick={() => { TableStore.setEditTableOptionRemove(field.name, index) }} />
+                                                    </FormCol>
+                                                )
+                                            })}
+                                            <Button type="primary" onClick={() => TableStore.setEditTableOptionAdd(field.name)}>Добавить вариант</Button>
+                                        </FormCol>
+                                    }
                                 </FormRow>
                             )
                         })}

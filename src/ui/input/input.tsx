@@ -1,22 +1,25 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 import './styles.scss'
+import { IPropertyItem } from '../../store/store'
 import { getCl, getClR, getDateFromFormattedDate, getFormattedDate, getTimestampFromDate } from '../../helper'
 import InputText from './inputText';
 import InputTextArea from './inputTextArea';
 import InputSelect from './inputSelect';
+import InputDateTime from './inputDateTime';
 import InputSelectMulti from './inputSelectMulti';
 import InputCheckbox from './inputCheckbox';
 import InputNumber from './inputNumber';
+import InputEditor from './inputEditor';
 
 interface IInput {
-    type: 'number' | 'text' | 'select' | 'datetime' | 'textarea' | 'multiselect' | 'password' | 'checkbox',
+    type: 'text' | 'select' | 'editor' | 'datetime' | 'number' | 'textarea' | 'multiselect' | 'password' | 'checkbox',
     inputType?: string,
     className?: string,
     value: any,
     error?: any,
     label?: string,
     placeholder?: string,
-    options?: any[],
+    options?: IPropertyItem[],
     format?: string,
     disabled?: boolean,
     datevalue?: string[],
@@ -45,6 +48,10 @@ const Input: FC<IInput> = (props: IInput) => {
     }, [focused])
 
     const onChange = (value: any) => {
+        if(props.type === 'number'){
+            props.onChange(parseInt(value))
+            return
+        }
         props.onChange(value)
     }
     const onFocus = () => {
@@ -76,10 +83,19 @@ const Input: FC<IInput> = (props: IInput) => {
 
     return (
         <div className={`input ${classes}`} ref={ref}>
-            {(props.label && props.type !== 'checkbox') &&
+            {(props.label && props.type !== 'checkbox' && props.type !== 'editor') &&
                 <div className='input__label'>
                     {props.label}
                 </div>
+            }
+            {props.type === 'editor' &&
+                <InputEditor
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    onChange={onChange}
+                    value={props.value}
+                    disabled={props.disabled}
+                />
             }
             {props.type === 'text' &&
                 <InputText
@@ -111,7 +127,7 @@ const Input: FC<IInput> = (props: IInput) => {
                     rows={props.rows}
                     minRows={props.minRows}
                     maxRows={props.maxRows}
-
+                    
                 />
             }
             {props.type === 'select' &&
@@ -149,6 +165,21 @@ const Input: FC<IInput> = (props: IInput) => {
                     focused={focused}
                     disabled={props.disabled}
                     label={props.label}
+                />
+            }
+            {props.type === 'datetime' &&
+                <InputDateTime
+                    onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    value={props.value}
+                    format={props.format}
+                    datevalue={props.datevalue}
+                    allowRangeDate={props.allowRangeDate}
+                    disabled={props.disabled}
+                    hourList={props.hourList}
+                    minuteList={props.minuteList}
+                    componentRef={ref}
                 />
             }
             {props.error &&

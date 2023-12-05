@@ -7,9 +7,7 @@ import Page, { PageBody, PageHead } from "../../ui/page/page";
 import Form, { FormActions, FormBody, FormCol, FormRow } from "../../ui/form/form";
 import Input from "../../ui/input/input";
 import Button from "../../ui/button/button";
-import Modal from "../../ui/modal/modal";
-import Type, { TypeList } from "../../components/type/type";
-import AppStore from "../../store/store";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
 
@@ -63,6 +61,7 @@ const Table_Add_Page: FC<Props> = observer((props: Props) => {
                             return (
                                 <FormRow>
                                     <FormCol>
+                                        {field.type.name}
                                         {field.type.name === 'text' &&
                                             <Input
                                                 type={"text"}
@@ -84,6 +83,52 @@ const Table_Add_Page: FC<Props> = observer((props: Props) => {
                                                 type={"checkbox"}
                                                 label={field.name}
                                                 value={field.value}
+                                                onChange={value => TableStore.setEditItemValue(field.name, value)}
+                                            />
+                                        }
+                                        {field.type.name === 'json' &&
+                                            <Input
+                                                type={"textarea"}
+                                                label={field.name}
+                                                value={field.value}
+                                                onChange={value => TableStore.setEditItemValue(field.name, value)}
+                                            />
+                                        }
+                                        {field.type.name === 'date' &&
+                                            <Input
+                                                type={"datetime"}
+                                                label={field.name}
+                                                value={field.value}
+                                                onChange={value => TableStore.setEditItemValue(field.name, value)}
+                                            />
+                                        }
+                                        {field.type.name === 'uuid' &&
+                                            <FormCol asRow={true}>
+                                                <Input
+                                                    type={"text"}
+                                                    disabled={true}
+                                                    label={field.name}
+                                                    value={field.value}
+                                                    onChange={value => TableStore.setEditItemValue(field.name, value)}
+                                                />
+                                                <Button type="primary" icon="refresh-cw" onClick={() => TableStore.setEditItemValue(field.name, uuidv4())} />
+                                            </FormCol>
+                                        }
+                                        {field.type.name === 'list' &&
+                                            <Input
+                                                type={"select"}
+                                                label={field.name}
+                                                value={field.value}
+                                                options={field.options}
+                                                onChange={value => TableStore.setEditItemValue(field.name, value)}
+                                            />
+                                        }
+                                        {field.type.name === 'multilist' &&
+                                            <Input
+                                                type={"multiselect"}
+                                                label={field.name}
+                                                value={field.value}
+                                                options={field.options}
                                                 onChange={value => TableStore.setEditItemValue(field.name, value)}
                                             />
                                         }

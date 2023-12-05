@@ -109,6 +109,24 @@ const FileUpload: FC<Props> = (props: Props) => {
         }
     };
 
+    const removeFile = (index: number) => {
+
+        if (files) {
+            const dt = new DataTransfer()
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i]
+                if (index !== i)
+                    dt.items.add(file) // here you exclude the file. thus removing it.
+            }
+            if(inputRef.current){
+                inputRef.current.files = dt.files
+                setFiles(inputRef.current.files);
+
+            }
+        }
+    }
+
     return (
         <div className="uploadBox">
             <input type="file" multiple onChange={handleFileChange} ref={inputRef} />
@@ -116,9 +134,9 @@ const FileUpload: FC<Props> = (props: Props) => {
             {files?.length ?
 
                 <div className="fileList">
-                    {getFiles().map(file => {
+                    {getFiles().map((file, index) => {
                         return (
-                            <div className="file">
+                            <div className="file" key={index}>
                                 <div className="file__preview">
                                     {getFilePreview(file)}
                                 </div>
@@ -129,6 +147,9 @@ const FileUpload: FC<Props> = (props: Props) => {
                                     <div className="file__size">
                                         {getSize(file.size / 1024)}
                                     </div>
+                                </div>
+                                <div className="file__remove" onClick={() => { removeFile(index) }}>
+                                    <Icon name="x" />
                                 </div>
                             </div>
                         )

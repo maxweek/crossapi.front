@@ -64,6 +64,12 @@ const Tables_Page: FC<Props> = observer((props: Props) => {
                             title: 'name'
                         },
                         {
+                            title: 'publicName'
+                        },
+                        {
+                            title: 'active'
+                        },
+                        {
                             title: 'fields'
                         },
                         {
@@ -77,6 +83,8 @@ const Tables_Page: FC<Props> = observer((props: Props) => {
                     tbody={AppStore.tables.map(table => [
                         `${table.id}`,
                         <Link to={`/tables/${table.id}/`}>{table.name}</Link>,
+                        <Link to={`/tables/${table.id}/`}>{table.publicName}</Link>,
+                        `${table.active}`,
                         <span dangerouslySetInnerHTML={getRawHtml(TableStore.getFieldsHyper(table.fields))} />,
                         `${table.updatedAt}`,
                         <Button type="primary" color="red" onClick={() => deleteTable(table.id)} icon="trash" />

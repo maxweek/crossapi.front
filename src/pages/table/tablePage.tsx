@@ -92,6 +92,8 @@ const Table_Page: FC<Props> = observer((props: Props) => {
                         let fields: string[] = []
                         tableFields.map(f => {
                             //@ts-ignore
+                            console.log(f, item[f.title])
+                            //@ts-ignore
                             fields.push(`${item[f.title]}`)
                         })
                         return [

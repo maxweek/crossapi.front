@@ -1,9 +1,6 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 import './styles.scss'
-import { getCl, getClR, getDateFromFormattedDate, getFormattedDate, getTimestampFromDate } from '../../helper'
-import Button from '../button/button';
-import Icon from '../icon/icon';
-import Image from '../image/image';
+import 'react-calendar/dist/Calendar.css';
 
 
 interface IInputText {

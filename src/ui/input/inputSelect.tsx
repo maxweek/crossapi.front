@@ -36,6 +36,7 @@ const InputSelect: FC<IInputSelect> = (props: IInputSelect) => {
     useEffect(() => {
         setTitle();
     }, [props.value])
+
     useEffect(() => {
         if (!initedOptions && props.options?.length) {
             // console.log('inited OPTIONS')
@@ -77,8 +78,8 @@ const InputSelect: FC<IInputSelect> = (props: IInputSelect) => {
     }
     function setTitle(id?: number) {
         let _id = id || props.value;
-        let opt = props.options?.filter(opt => opt.id === _id)[0]
-        // console.log(opt)
+        let opt = props.options?.filter(opt => opt.id == _id)[0]
+        // console.log({_id, opt, a: props.options})
         // debugger
         if (opt) {
             setText(opt.title)
@@ -133,7 +134,6 @@ const InputSelect: FC<IInputSelect> = (props: IInputSelect) => {
                 {/* <select onChange={onChange} value={props.value} ref={ref}>
                     {props.options && props.options.map(option => <option value={option.id}>{option.title}</option>)}
                 </select> */}
-
                 <input type="text"
                     value={text}
                     onChange={onTextChange}

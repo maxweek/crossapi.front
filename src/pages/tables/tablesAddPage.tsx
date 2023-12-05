@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import TableStore from "../../store/table";
 import { setRequest } from "../../API";
 import Page, { PageBody, PageHead } from "../../ui/page/page";
-import Form, { FormActions, FormBody, FormCol, FormRow } from "../../ui/form/form";
+import Form, { FormActions, FormBody, FormCol, FormHr, FormRow } from "../../ui/form/form";
 import Input from "../../ui/input/input";
 import Button from "../../ui/button/button";
 import Modal from "../../ui/modal/modal";
@@ -21,7 +21,7 @@ const Tables_Add_Page: FC<Props> = observer((props: Props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        TableStore.setEditTable(undefined)
+        // TableStore.setEditTable(undefined)
     }, [])
 
     const onSubmit = () => {
@@ -33,7 +33,9 @@ const Tables_Add_Page: FC<Props> = observer((props: Props) => {
             success: res => {
                 setLoaded(true);
                 setTimeout(() => {
-                    navigate(`/tables/`)
+                    console.log(JSON.parse(JSON.stringify(TableStore.editItem)))
+                    debugger
+                    // navigate(`/tables/`)
                 }, 200)
             }
         })
@@ -43,7 +45,7 @@ const Tables_Add_Page: FC<Props> = observer((props: Props) => {
         <Page className="dashboard">
             <PageHead
                 title={"Добавить таблицу"}
-                // info={TableStore.table.name}
+            // info={TableStore.table.name}
             />
             <PageBody>
                 <Form asModule={false}>
@@ -52,24 +54,61 @@ const Tables_Add_Page: FC<Props> = observer((props: Props) => {
                             <FormCol>
                                 <Input
                                     type={"text"}
-                                    label={"Имя таблицы"}
+                                    label={"Имя таблицы на англ"}
                                     value={TableStore.editTable.name}
                                     onChange={value => TableStore.setEditTableName(value)}
                                 />
                             </FormCol>
+                            <FormCol>
+                                <Input
+                                    type={"text"}
+                                    label={"Публичное имя таблицы"}
+                                    value={TableStore.editTable.publicName}
+                                    onChange={value => TableStore.setEditTablePublicName(value)}
+                                />
+                            </FormCol>
+                            <FormCol>
+                                <Input
+                                    type={"checkbox"}
+                                    label={"Активность"}
+                                    value={TableStore.editTable.active}
+                                    onChange={value => TableStore.setEditTableActive(value)}
+                                />
+                            </FormCol>
                         </FormRow>
-                        
-                        {TableStore.editTable?.fields?.map(field => {
+                        <FormHr />
+                        {TableStore.editTable?.fields?.map((field, i) => {
                             return (
                                 <FormRow>
-                                    <FormCol>
+                                    <FormCol asRow={true}>
                                         <Input
                                             type={"text"}
                                             label={field.type.name}
                                             value={field.name}
                                             onChange={value => TableStore.setEditTableValue(field.name, value)}
                                         />
+                                        <Button type="primary" color="red" icon="trash" onClick={() => { TableStore.removeEditTableFieldByIndex(i) }} />
                                     </FormCol>
+                                    {(field.type.name === 'list' || field.type.name === 'multilist') &&
+                                        <FormCol>
+                                            <FormCol asRow={true}>
+                                                {field.options?.map((option, index) => {
+                                                    return (
+                                                        <>
+                                                            <Input
+                                                                type={"text"}
+                                                                label={option.id.toString()}
+                                                                value={option.title}
+                                                                onChange={value => TableStore.setEditTableOption(field.name, index, value)}
+                                                            />
+                                                            <Button type="primary" color="red" icon="trash" onClick={() => { TableStore.setEditTableOptionRemove(field.name, index) }} />
+                                                        </>
+                                                    )
+                                                })}
+                                            </FormCol>
+                                            <Button type="primary" onClick={() => TableStore.setEditTableOptionAdd(field.name)}>Добавить вариант</Button>
+                                        </FormCol>
+                                    }
                                 </FormRow>
                             )
                         })}
