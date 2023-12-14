@@ -11,6 +11,7 @@ export interface ITableStore {
 export interface ITable {
     id: number,
     name: string,
+    pluralName: string,
     publicName: string,
     active: boolean,
     fields: IField[],
@@ -28,6 +29,7 @@ export interface ITableEdit {
     id: number | null,
     name: string,
     publicName: string,
+    pluralName: string,
     active: boolean,
     fields: IField[]
 }
@@ -203,6 +205,15 @@ class _TableStore implements ITableStore {
             letters[0] = letters[0].toUpperCase();
         }
         this.editTable.name = letters.join('');
+        this.editTable.pluralName = letters.join('') + 's';
+    }
+    setEditTablePluralName = (value: string) => {
+        let letters = value.split('');
+        if (letters[0]) {
+            letters[0] = letters[0].toUpperCase();
+        }
+        this.editTable.name = letters.join('');
+        this.editTable.pluralName = letters.join('') + 's';
     }
     setEditTablePublicName = (value: string) => {
         this.editTable.publicName = value;

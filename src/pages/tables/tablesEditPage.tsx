@@ -71,6 +71,14 @@ const Tables_Edit_Page: FC<Props> = observer((props: Props) => {
                             <FormCol>
                                 <Input
                                     type={"text"}
+                                    label={"Множественное"}
+                                    value={TableStore.editTable.pluralName}
+                                    onChange={value => TableStore.setEditTablePluralName(value)}
+                                />
+                            </FormCol>
+                            <FormCol>
+                                <Input
+                                    type={"text"}
                                     label={"Публичное имя таблицы"}
                                     value={TableStore.editTable.publicName}
                                     onChange={value => TableStore.setEditTablePublicName(value)}

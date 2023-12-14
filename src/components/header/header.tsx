@@ -36,6 +36,14 @@ const Header: FC<Props> = observer((props: Props) => {
         AppStore.setSidebarActive(true)
     }
 
+    const reStart = () => {
+        setRequest({
+            type: "GET",
+            url: "/restart",
+            success: () => {
+            }
+        })
+    }
     const reSync = () => {
         setLoadingSync(true)
         setRequest({
@@ -71,7 +79,13 @@ const Header: FC<Props> = observer((props: Props) => {
                         <Button
                             type="primary"
                             color={loadingSync ? "green" : "purple"}
-                            loading={loadingSync}
+                            onClick={() => reStart()}
+                        >
+                            Reload
+                        </Button>
+                        <Button
+                            type="primary"
+                            color={loadingSync ? "green" : "purple"}
                             onClick={() => reSync()}
                         >
                             Sync
